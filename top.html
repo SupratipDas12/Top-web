@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Form</title>
+    <style>
+        /* Basic CSS for layout */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+        }
+
+        .header .icon {
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .form-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        .form-section input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .form-section button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .form-section button:hover {
+            background-color: #45a049;
+        }
+
+        .image-section {
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .history-section {
+            display: block;
+            padding: 10px;
+            background-color: #f0f0f0;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .history-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .history-section li {
+            padding: 10px;
+            background-color: #fff;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .time-date {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .user-count {
+            font-size: 20px;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        /* Modal CSS */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0); /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .modal-header {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .modal-body {
+            font-size: 18px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header with note icon -->
+    <div class="header">
+        <div class="icon" onclick="toggleNote()">💡 Note</div>
+    </div>
+
+    <div class="container">
+        <!-- Image Section -->
+        <div class="image-section">
+            <img src="your-image.jpg" alt="Image" width="300">
+        </div>
+
+        <!-- User Count Below Image -->
+        <div class="user-count" id="userCountDisplay">Users joined: 1/100</div>
+
+        <!-- Date and Time Section -->
+        <div class="time-date" id="timeDate"></div>
+
+        <!-- Form Section -->
+        <div class="form-section">
+            <h3>Enter your name</h3>
+            <input type="text" id="name" placeholder="Enter your name" required>
+            <button onclick="submitForm()">Submit</button>
+        </div>
+
+        <!-- History Section (visible to all users) -->
+        <div class="history-section" id="historySection">
+            <h4>History</h4>
+            <ul id="historyList"></ul>
+        </div>
+    </div>
+
+    <!-- The Modal for Winners -->
+    <div id="winnersModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Winners</h2>
+            </div>
+            <div class="modal-body" id="winnersList">
+                <!-- Winner names will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Section -->
+    <script>
+        // Function to show and hide the note section
+        function toggleNote() {
+            alert("This is a note for everyone!");
+        }
+
+        // Function to display current time and date
+        function updateDateTime() {
+            const now = new Date();
+            const date = now.toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            const time = now.toLocaleTimeString('en-IN');
+            document.getElementById('timeDate').textContent = `Date: ${date} | Time: ${time}`;
+        }
+
+        // Update date and time every second
+        setInterval(updateDateTime, 1000);
+
+        // Function to submit form and show Google Form and update user count
+        function submitForm() {
+            const name = document.getElementById("name").value;
+
+            if (name) {
+                // Get current time and date
+                const now = new Date();
+                const dateTime = now.toLocaleString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+
+                // Get user count from localStorage or initialize to 1 (since we start counting from 1)
+                let userCount = JSON.parse(localStorage.getItem("userCount")) || 1;
+
+                // Increment user count and reset if greater than 100
+                if (userCount < 100) {
+                    userCount++;
+                } else {
+                    // Select 3 random winners after 100 users
+                    selectWinners();
+                    userCount = 1;  // Reset count to 1 after 100 users
+                    alert("User count reset to 1 after 100 users. Winners selected!");
+                }
+
+                // Display the updated user count as X/100
+                document.getElementById("userCountDisplay").textContent = `Users joined: ${userCount}/100`;
+
+                // Add Date, Time, Name, and User Count to history (visible to all users)
+                const historyList = document.getElementById("historyList");
+                const listItem = document.createElement("li");
+                listItem.textContent = `Name: ${name} | Date & Time: ${dateTime} | User Count: ${userCount}/100`;
+                historyList.appendChild(listItem);
+
+                // Store the updated history and user count in localStorage
+                const historyData = JSON.parse(localStorage.getItem("history")) || [];
+                historyData.push({ name, dateTime, userCount });
+                localStorage.setItem("history", JSON.stringify(historyData));
+                localStorage.setItem("userCount", JSON.stringify(userCount)); // Store the updated user count
+            } else {
+                alert("Please fill the name field.");
+            }
+        }
+
+        // Function to select 3 random winners after 100 users
+        function selectWinners() {
+            const historyData = JSON.parse(localStorage.getItem("history")) || [];
+            const winners = [];
+
+            // Randomly select 3 winners from the history data
+            while (winners.length < 3) {
+                const randomIndex = Math.floor(Math.random() * historyData.length);
+                const randomUser = historyData[randomIndex];
+
+                // Ensure no duplicate winners
+                if (!winners.includes(randomUser.name)) {
+                    winners.push(randomUser.name);
+                }
+            }
+
+            // Save winners in localStorage
+            localStorage.setItem("winners", JSON.stringify(winners));
+
+            // Display the modal
+            openModal();
+        }
+
+  // Function to open the modal and display winners
+            function openModal() {
+                const winners = JSON.parse(localStorage.getItem("winners")) || [];
+                const winnersList = document.getElementById("winnersList");
+                winnersList.innerHTML = ''; // Clear any previous winners
+
+                winners.forEach(winner => {
+                    const winnerItem = document.createElement("p");
+                    winnerItem.textContent = winner;
+                    winnersList.appendChild(winnerItem);
+                });
+
+                // Show the modal
+                document.getElementById("winnersModal").style.display = "block";
+            }
+
+            // Function to close the modal
+            function closeModal() {
+                document.getElementById("winnersModal").style.display = "none";
+            }
+
+            // Load history from localStorage (visible to all users)
+            window.onload = function() {
+                const historyData = JSON.parse(localStorage.getItem("history")) || [];
+                const historyList = document.getElementById("historyList");
+
+                // Ensure history is displayed when page loads
+                historyList.innerHTML = ''; // Clear previous history first
+                historyData.forEach(item => {
+                    const listItem = document.createElement("li");
+                    listItem.textContent = `Name: ${item.name} | Date & Time: ${item.dateTime} | User Count: ${item.userCount}/100`;
+                    historyList.appendChild(listItem);
+                });
+
+                // Display the saved user count on page load as X/100
+                const userCount = JSON.parse(localStorage.getItem("userCount")) || 1;
+                document.getElementById("userCountDisplay").textContent = `Users joined: ${userCount}/100`;
+            }
+
+        </script>
+
+</body>
+</html>
