@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast January 2026</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+            max-width: 1200px;
+        }
+
+        header {
+            background-color: #2C3E50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 30px;
+            border-bottom: 4px solid #3498db;
+        }
+
+        .row {
+            margin: 25px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .note-icon {
+            font-size: 30px;
+            color: #3498db;
+        }
+
+        .note {
+            font-size: 18px;
+            color: #2C3E50;
+            line-height: 1.6;
+            max-width: 700px;
+        }
+
+        .image {
+            width: 100%;
+            height: auto;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .counter {
+            font-size: 22px;
+            color: #34495E;
+            font-weight: bold;
+        }
+
+        .input-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .input-container input {
+            padding: 12px;
+            font-size: 18px;
+            border: 2px solid #3498db;
+            border-radius: 6px;
+            width: 70%;
+            margin-right: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .input-container input:focus {
+            outline: none;
+            border-color: #2980b9;
+            box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+        }
+
+        .submit-btn {
+            padding: 12px 25px;
+            font-size: 18px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        .status {
+            font-size: 18px;
+            color: #e74c3c;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+
+            header {
+                font-size: 24px;
+                padding: 15px 0;
+            }
+
+            .row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .note {
+                font-size: 16px;
+            }
+
+            .image {
+                max-width: 100%;
+                margin-top: 20px;
+            }
+
+            .input-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .input-container input {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Fast January 2026</h1>
+    </header>
+
+    <div class="container">
+        <!-- Row 2 - Note Section -->
+        <div class="row">
+            <div class="note-icon">📝</div>
+            <div class="note">
+                <p>1) Once 100/100 users have completed, 10 winners will be randomly selected automatically.</p>
+                <p>2) The user who enters a number in row 5 must submit the same number on the Google Form; otherwise, the prize will not be awarded.</p>
+            </div>
+        </div>
+
+        <!-- Row 3 - Image Section -->
+        <div class="row">
+            <img src="https://via.placeholder.com/500" alt="Image" class="image">
+        </div>
+
+        <!-- Row 4 - Counter and Time -->
+        <div class="row">
+            <div class="counter">
+                <span id="user-count">0</span>/100
+            </div>
+            <div class="counter">
+                <span id="time-count">01 January 2026</span>
+            </div>
+        </div>
+
+        <!-- Row 5 - Number Input -->
+        <div class="row">
+            <div class="input-container">
+                <input type="number" id="user-input" placeholder="Enter a number">
+                <button class="submit-btn" onclick="submitNumber()">Submit</button>
+            </div>
+        </div>
+
+        <!-- Status Section -->
+        <div class="status" id="status-message"></div>
+    </div>
+
+    <script>
+        let userCount = 0;
+        let timeLimit = new Date('2026-01-01T00:00:00'); // 1 January 2026
+        let interval;
+
+        // Update time countdown
+        function updateTime() {
+            let currentTime = new Date();
+            let diff = timeLimit - currentTime;
+            if (diff <= 0) {
+                clearInterval(interval);
+                document.getElementById('time-count').textContent = 'Time is up!';
+            } else {
+                let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('time-count').textContent = `${days} Days ${hours} Hours`;
+            }
+        }
+
+        // Start the time countdown
+        interval = setInterval(updateTime, 1000);
+        updateTime();
+
+        // Submit number and update user count
+        function submitNumber() {
+            let userInput = document.getElementById('user-input').value;
+
+            if (userInput) {
+                if (userCount < 100) {
+                    userCount++;
+                    document.getElementById('user-count').textContent = userCount;
+                    document.getElementById('status-message').textContent = `You submitted number ${userInput}. Google Form will open now!`;
+
+                    // Open Google Form (replace with actual Google Form URL)
+                    window.open("https://forms.gle/your-google-form-url", "_blank");
+
+                    if (userCount === 100) {
+                        alert('Congratulations! 100 users have completed the process. Random selection for winners will happen now.');
+                    }
+                } else {
+                    document.getElementById('status-message').textContent = "The limit of 100 users has been reached!";
+                }
+            } else {
+                document.getElementById('status-message').textContent = "Please enter a valid number.";
+            }
+        }
+    </script>
+
+</body>
+</html>
