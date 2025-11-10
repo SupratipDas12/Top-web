@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+   
 <script type='text/javascript' src='//pl27928424.effectivegatecpm.com/d5/da/98/d5da989ccb64494e2166f095b60a15b8.js'></script>
 
     <meta charset="UTF-8">
@@ -62,15 +62,10 @@
         #submit-phone:hover {
             background-color: darkgreen;
         }
-
-        #phone-number {
-            padding: 10px;
-            font-size: 1rem;
-            width: 200px;
-        }
     </style>
 
 <script type='text/javascript' src='//pl27928424.effectivegatecpm.com/d5/da/98/d5da989ccb64494e2166f095b60a15b8.js'></script>
+
 
 </head>
 <body>
@@ -104,8 +99,6 @@
         <p>Coins: <span id="coin-count">0</span></p>
     </div>
 
-
-
     <!-- Row 4: Image Section -->
     <div class="image-section">
         <img src="promotional-banner.jpg" alt="Promotional Banner">
@@ -117,9 +110,9 @@
         <p>Countdown: <span id="countdown-timer"></span></p>
     </div>
 
-    <!-- Row 6: Phone Number Input -->
+    <!-- Row 6: Phone Number Input (without the phone number input field) -->
     <div class="phone-number-input">
-        <input type="text" id="phone-number" placeholder="Enter Phone Number" disabled>
+        <!-- Removed phone input field -->
         <button id="submit-phone" disabled>Submit After 5 Wins</button>
     </div>
 
@@ -147,7 +140,6 @@
             const coinDisplay = document.getElementById('coin-count');
             const progressDisplay = document.getElementById('game-progress');
             const countdownTimer = document.getElementById('countdown-timer');
-            const phoneInput = document.getElementById('phone-number');
             const submitButton = document.getElementById('submit-phone');
             const colorButtons = document.querySelectorAll('.color-btn');
             const selectedColorDisplay = document.getElementById('selected-color');
@@ -193,9 +185,8 @@
                     alert('Correct guess! You earned 1 coin.');
                     completedGames++; // Increase completed game count
 
-                    // Enable phone input and submit button after 5 wins
+                    // Enable submit button after 5 wins
                     if (completedGames >= 5) {
-                        phoneInput.disabled = false; // Enable phone number input
                         submitButton.disabled = false; // Enable submit button
                     }
                 } else {
@@ -208,10 +199,10 @@
                 if (completedGames >= 5) {
                     // Open Google Form on submit
                     window.open('https://forms.gle/QoEw56mEnJCGyCjN9', '_blank');
-                    document.getElementById('game-progress').textContent = '1/100'; // Update progress to 1/100 after submission
+                    //document.getElementById('game-progress').textContent = '1/100'; // Update progress to 1/100 after submission
                     alert('Phone number submitted! Progress updated.');
                 } else {
-                    alert('Please complete 5 wins to submit your phone number.');
+                    alert('Please complete 5 wins to submit.');
                 }
             });
         });
@@ -238,7 +229,4 @@
 		'params' : {}
 	};
 </script>
-<script type="text/javascript" src="//www.highperformanceformat.com/3b8058e84eb9143d6a43698b2cf937cb/invoke.js"></script>
-
-</body>
-</html>
+<script type="text/javascript" src="//www.highperformanceformat.com
