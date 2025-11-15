@@ -183,32 +183,241 @@
                     coinCount++;  // Increase coin count on correct guess
                     coinDisplay.textContent = coinCount; // Update coin display
                     alert('Correct guess! You earned 1 coin.');
-                    completedGames++; // Increase completed game count
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
 
-                    // Enable submit button after 5 wins
-                    if (completedGames >= 5) {
-                        submitButton.disabled = false; // Enable submit button
-                    }
-                } else {
-                    alert(`Incorrect guess! The correct color was ${randomColor}.`);
-                }
-            }
+<script type='text/javascript' src='//pl27928424.effectivegatecpm.com/d5/da/98/d5da989ccb64494e2166f095b60a15b8.js'></script>
 
-            // Submit phone number and update progress
-            submitButton.addEventListener('click', () => {
-                if (completedGames >= 5) {
-                    // Open Google Form on submit
-                    window.open('https://forms.gle/QoEw56mEnJCGyCjN9', '_blank');
-                    //document.getElementById('game-progress').textContent = '1/100'; // Update progress to 1/100 after submission
-                    alert('Phone number submitted! Progress updated.');
-                } else {
-                    alert('Please complete 5 wins to submit.');
-                }
-            });
-        });
-    </script>
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Fast January 2026</title>  
+    <style>  
+        /* Basic Reset */  
+        * {  
+            margin: 0;  
+            padding: 0;  
+            box-sizing: border-box;  
+        }  
+  
+        body {  
+            font-family: Arial, sans-serif;  
+            padding: 20px;  
+            background-color: #f4f4f4;  
+        }  
+  
+        header {  
+            background-color: green;  
+            color: white;  
+            text-align: center;  
+            padding: 20px 0;  
+            font-size: 2rem;  
+        }  
+  
+        .note-section, .coin-display, .progress-section, .phone-number-input, .color-guess-game, .telegram-section, .reward-section {  
+            margin: 20px 0;  
+            text-align: center;  
+        }  
+  
+        .color-btn {  
+            background-color: #ddd;  
+            border: none;  
+            padding: 10px;  
+            margin: 5px;  
+            font-size: 1rem;  
+            cursor: pointer;  
+        }  
+  
+        .color-btn:hover {  
+            background-color: #ccc;  
+        }  
+  
+        #submit-phone:disabled {  
+            background-color: #ccc;  
+            cursor: not-allowed;  
+        }  
+  
+        #submit-phone {  
+            background-color: green;  
+            color: white;  
+            padding: 10px;  
+            cursor: pointer;  
+        }  
+  
+        #submit-phone:hover {  
+            background-color: darkgreen;  
+        }  
+  
+        /* New Row 4: Reward Section */  
+        .reward-section {  
+            margin: 20px 0;  
+            text-align: center;  
+            font-size: 1.2rem;  
+            font-weight: bold;  
+            color: #333;  
+        }  
+  
+    </style>  
+    
+    <script type='text/javascript' src='//pl27928424.effectivegatecpm.com/d5/da/98/d5da989ccb64494e2166f095b60a15b8.js'></script>
+    
+</head>  
+<body>  
+  
+      <!-- ads-code2 -->
+        <script type="text/javascript">
+	atOptions = {
+		'key' : '3b8058e84eb9143d6a43698b2cf937cb',
+		'format' : 'iframe',
+		'height' : 250,
+		'width' : 300,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/3b8058e84eb9143d6a43698b2cf937cb/invoke.js"></script>
+  
+    <header>  
+        <h1>Fast January 2026</h1>  
+    </header>  
+  
+    <!-- Row 2: Note Section -->  
+    <div class="note-section">  
+        <i class="fas fa-sticky-note"></i>  
+        <p>  
+            "Once 100 users complete the task, 10 winners will be randomly selected. To be eligible for the prize, users must submit their phone number in the Google form provided on the site. Winners will be announced on Telegram on January 1, 2026.
 
-<!-- ads-code1 -->
+            Each user can participate an unlimited number of times on a single device, but they must use a different phone number each time." 
+        </p>  
+    </div>  
+  
+    <!-- Row 4: User Reward Section -->
+    <div class="reward-section">
+        <p>Earn a reward of 10₹ for completing your task!</p>
+    </div>
+
+    <!-- Row 3: Coin Display -->  
+    <div class="coin-display">  
+        <p>Coins: <span id="coin-count">0</span></p>  
+    </div>  
+  
+    <!-- Row 5: Progress Section -->  
+    <div class="progress-section">  
+        <p>Progress: <span id="game-progress">0/100</span></p>  
+        <p>Countdown: <span id="countdown-timer"></span></p>  
+    </div>  
+  
+    <!-- Row 6: Phone Number Input (without the phone number input field) -->  
+    <div class="phone-number-input">  
+        <button id="submit-phone" disabled>Submit After 5 Wins</button>  
+    </div>  
+  
+    <!-- Row 7: Colour Guess Game -->  
+    <div class="color-guess-game">  
+        <button class="color-btn" data-color="red">Red</button>  
+        <button class="color-btn" data-color="blue">Blue</button>  
+        <button class="color-btn" data-color="green">Green</button>  
+        <button class="color-btn" data-color="yellow">Yellow</button>  
+        <button class="color-btn" data-color="purple">Purple</button>  
+        <p>Your selection: <span id="selected-color">None</span></p>  
+    </div>  
+  
+    <!-- Row 8: Telegram Section -->  
+    <div class="telegram-section">  
+        <a href="https://t.me/Give_Away_Gift_All_Day" target="_blank">Join our Telegram for Updates</a>  
+    </div>  
+  
+    <script>  
+      document.addEventListener('DOMContentLoaded', () => {  
+        let coinCount = 0;  
+        let completedGames = 0;  // Track the number of games completed  
+        let totalProgress = 0;   // Track total progress (0 to 100)  
+        let countdownDate = new Date('January 1, 2026').getTime(); // Countdown to January 1, 2026  
+  
+        const coinDisplay = document.getElementById('coin-count');  
+        const progressDisplay = document.getElementById('game-progress');  
+        const countdownTimer = document.getElementById('countdown-timer');  
+        const submitButton = document.getElementById('submit-phone');  
+        const colorButtons = document.querySelectorAll('.color-btn');  
+        const selectedColorDisplay = document.getElementById('selected-color');  
+            
+        coinDisplay.textContent = coinCount;  
+        progressDisplay.textContent = `${totalProgress}/100`;  
+              
+        // Countdown Timer  
+        setInterval(() => {  
+          let now = new Date().getTime();  
+          let distance = countdownDate - now;  
+                  
+          let days = Math.floor(distance / (1000 * 60 * 60 * 24));  
+          let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));  
+          let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));  
+          let seconds = Math.floor((distance % (1000 * 60)) / 1000);  
+                  
+          countdownTimer.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;  
+  
+          if (distance < 0) {   
+            clearInterval();  
+            countdownTimer.innerHTML = "EXPIRED";  
+          }  
+        }, 1000);  
+  
+        // Handle color guessing game  
+        colorButtons.forEach(button => {  
+          button.addEventListener('click', () => {  
+            const selectedColor = button.getAttribute('data-color');  
+            selectedColorDisplay.textContent = selectedColor;   
+  
+            // Randomly choose a color  
+            const colors = ['red', 'blue', 'green', 'yellow', 'purple'];  
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];  
+            console.log(`Correct Color: ${randomColor}`);  
+  
+            // Check if the guess is correct  
+            if (selectedColor === randomColor) {  
+              coinCount++;    
+              coinDisplay.textContent = coinCount;   
+              alert('Correct guess! You earned 1 coin.');  
+              completedGames++; // Increase completed game count  
+  
+              // Enable submit button after 5 wins  
+              if (completedGames >= 5) {   
+                submitButton.disabled = false;  
+              }  
+            } else {  
+              alert(`Incorrect guess! The correct color was ${randomColor}.`);  
+            }  
+          });  
+        });  
+  
+        // Submit phone number and update progress  
+        submitButton.addEventListener('click', () => {  
+          if (completedGames >= 5) {  
+            // Open Google Form on submit  
+            window.open('https://forms.gle/QoEw56mEnJCGyCjN9', '_blank');  
+  
+            // Reset coin count and completed games  
+            coinCount = 0;  
+            completedGames = 0;  
+            coinDisplay.textContent = coinCount;  
+  
+            // Update progress counter  
+            totalProgress++;  
+            progressDisplay.textContent = `${totalProgress}/100`;  
+  
+            // Disable button once 100/100 is reached  
+            if (totalProgress >= 100) {  
+              submitButton.disabled = true;  
+            }  
+              
+            alert('Phone number submitted! Progress updated.');  
+          } else {  
+            alert('Please complete 5 wins to submit.');  
+          }                           
+        });                               
+      });  
+    </script>  
+  
+  <!-- ads-code1 -->
       <script type="text/javascript">
 	atOptions = {
 		'key' : '3b8058e84eb9143d6a43698b2cf937cb',
@@ -219,6 +428,8 @@
 	};
 </script>
 <script type="text/javascript" src="//www.highperformanceformat.com/3b8058e84eb9143d6a43698b2cf937cb/invoke.js"></script>
+
+
 <!-- ads-code2 -->
         <script type="text/javascript">
 	atOptions = {
@@ -229,6 +440,8 @@
 		'params' : {}
 	};
 </script>
-<script type="text/javascript" src="//www.highperformanceformat.com
-
-
+<script type="text/javascript" src="//www.highperformanceformat.com/3b8058e84eb9143d6a43698b2cf937cb/invoke.js"></script>
+  
+  
+</body>  
+</html>
