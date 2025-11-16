@@ -115,12 +115,6 @@
         <p>Coins: <span id="coin-count">0</span></p>  
     </div>  
   
-    <!-- Row 5: Progress Section -->  
-    <div class="progress-section">  
-        <p>Progress: <span id="game-progress">0/100</span></p>  
-        <p>Countdown: <span id="countdown-timer"></span></p>  
-    </div>  
-  
     <!-- Row 6: Phone Number Input (without the phone number input field) -->  
     <div class="phone-number-input">  
         <button id="submit-phone" disabled>Submit After 5 Wins</button>  
@@ -139,9 +133,9 @@
     <!-- Row 8: Telegram Section -->  
     <div class="telegram-section">  
         <a href="https://t.me/Give_Away_Gift_All_Day" target="_blank">Join our Telegram for Updates</a>  
-    </div>  
+    </div>   
   
-    <script>  
+<script>  
       document.addEventListener('DOMContentLoaded', () => {  
         let coinCount = 0;  
         let completedGames = 0;  // Track the number of games completed  
@@ -149,14 +143,12 @@
         let countdownDate = new Date('January 1, 2026').getTime(); // Countdown to January 1, 2026  
   
         const coinDisplay = document.getElementById('coin-count');  
-        const progressDisplay = document.getElementById('game-progress');  
         const countdownTimer = document.getElementById('countdown-timer');  
         const submitButton = document.getElementById('submit-phone');  
         const colorButtons = document.querySelectorAll('.color-btn');  
         const selectedColorDisplay = document.getElementById('selected-color');  
             
         coinDisplay.textContent = coinCount;  
-        progressDisplay.textContent = `${totalProgress}/100`;  
               
         // Countdown Timer  
         setInterval(() => {  
@@ -217,8 +209,7 @@
   
             // Update progress counter  
             totalProgress++;  
-            progressDisplay.textContent = `${totalProgress}/100`;  
-  
+              
             // Disable button once 100/100 is reached  
             if (totalProgress >= 100) {  
               submitButton.disabled = true;  
@@ -230,7 +221,7 @@
           }                           
         });                               
       });  
-    </script>  
+    </script>    
   
   <!-- ads-code1 -->
       <script type="text/javascript">
@@ -260,4 +251,3 @@
   
 </body>  
 </html>
-
