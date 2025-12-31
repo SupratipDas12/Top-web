@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Video Local Storage History</title>
+<title>Video Link Download & History</title>
 
 <style>
 body{
-    background:#0f0f0f;
+    background:#111;
     color:#fff;
     font-family:Arial;
     padding:20px;
@@ -14,6 +14,22 @@ body{
 .container{
     max-width:600px;
     margin:auto;
+}
+input{
+    width:100%;
+    padding:10px;
+    border-radius:6px;
+    border:none;
+    margin-bottom:10px;
+}
+button{
+    padding:10px;
+    width:100%;
+    border:none;
+    border-radius:6px;
+    background:#28a745;
+    color:#fff;
+    cursor:pointer;
 }
 video{
     width:100%;
@@ -24,97 +40,83 @@ video{
     margin-top:20px;
 }
 .item{
-    background:#1f1f1f;
+    background:#222;
     padding:8px;
-    margin-bottom:6px;
     border-radius:6px;
+    margin-bottom:6px;
     cursor:pointer;
 }
-.item:hover{
-    background:#333;
-}
-small{
-    color:#aaa;
-}
-.clear{
-    background:#ff3b3b;
-    border:none;
-    color:#fff;
-    padding:6px 10px;
-    border-radius:5px;
-    cursor:pointer;
-}
+.item:hover{background:#333;}
+small{color:#aaa;}
 </style>
 </head>
 
 <body>
 
 <div class="container">
-    <h2>📹 Video Player (Local Storage)</h2>
 
-    <input type="file" id="videoInput" accept="video/*">
+<h2>🔗 Paste Video Link</h2>
 
-    <video id="player" controls></video>
+<input type="text" id="videoURL" placeholder="Paste direct video link (.mp4)">
+<button onclick="downloadVideo()">Download & Play</button>
 
-    <div class="history">
-        <h3>📜 Watch History</h3>
-        <div id="list"></div>
-        <button class="clear" onclick="clearHistory()">Clear History</button>
-    </div>
+<video id="player" controls></video>
+
+<div class="history">
+    <h3>📜 Video History (Local)</h3>
+    <div id="list"></div>
+</div>
+
 </div>
 
 <script>
-const input = document.getElementById("videoInput");
 const player = document.getElementById("player");
 const list = document.getElementById("list");
 
-let history = JSON.parse(localStorage.getItem("video_history")) || [];
-
-// Load saved history
+let history = JSON.parse(localStorage.getItem("video_links")) || [];
 render();
 
-input.addEventListener("change", () => {
-    const file = input.files[0];
-    if(!file) return;
+function downloadVideo(){
+    const url = document.getElementById("videoURL").value.trim();
+    if(!url) return alert("Paste video link");
 
-    const videoURL = URL.createObjectURL(file);
-    player.src = videoURL;
-    player.play();
+    fetch(url)
+    .then(res => res.blob())
+    .then(blob => {
+        const videoBlobURL = URL.createObjectURL(blob);
+        player.src = videoBlobURL;
+        player.play();
 
-    const data = {
-        name: file.name,
-        time: new Date().toLocaleString(),
-        url: videoURL
-    };
+        const data = {
+            url: videoBlobURL,
+            original: url,
+            time: new Date().toLocaleString()
+        };
 
-    history.unshift(data);
-    localStorage.setItem("video_history", JSON.stringify(history));
-    render();
-});
+        history.unshift(data);
+        localStorage.setItem("video_links", JSON.stringify(history));
+        render();
+    })
+    .catch(()=>{
+        alert("❌ Video download failed (CORS blocked or invalid link)");
+    });
+}
 
 function render(){
     list.innerHTML = "";
-    history.forEach((v, i) => {
+    history.forEach(v=>{
         const div = document.createElement("div");
         div.className = "item";
         div.innerHTML = `
-            ▶ ${v.name}<br>
+            ▶ ${v.original}<br>
             <small>${v.time}</small>
         `;
-        div.onclick = () => {
+        div.onclick = ()=>{
             player.src = v.url;
             player.play();
         };
         list.appendChild(div);
     });
-}
-
-function clearHistory(){
-    if(confirm("Delete local history?")){
-        localStorage.removeItem("video_history");
-        history = [];
-        render();
-    }
 }
 </script>
 
