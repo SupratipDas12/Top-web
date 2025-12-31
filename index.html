@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Video Link Download & History</title>
+<title>Any Video Downloader</title>
 
 <style>
 body{
@@ -15,25 +15,21 @@ body{
     max-width:600px;
     margin:auto;
 }
-input{
+input,button{
     width:100%;
     padding:10px;
+    margin-top:10px;
     border-radius:6px;
     border:none;
-    margin-bottom:10px;
 }
 button{
-    padding:10px;
-    width:100%;
-    border:none;
-    border-radius:6px;
     background:#28a745;
     color:#fff;
     cursor:pointer;
 }
 video{
     width:100%;
-    margin-top:10px;
+    margin-top:15px;
     border-radius:10px;
 }
 .history{
@@ -42,8 +38,8 @@ video{
 .item{
     background:#222;
     padding:8px;
-    border-radius:6px;
     margin-bottom:6px;
+    border-radius:6px;
     cursor:pointer;
 }
 .item:hover{background:#333;}
@@ -54,65 +50,60 @@ small{color:#aaa;}
 <body>
 
 <div class="container">
+<h2>🔗 Paste Any Video Link</h2>
 
-<h2>🔗 Paste Video Link</h2>
-
-<input type="text" id="videoURL" placeholder="Paste direct video link (.mp4)">
-<button onclick="downloadVideo()">Download & Play</button>
+<input type="text" id="url" placeholder="Paste YouTube / Insta / Any link">
+<button onclick="download()">Download & Play</button>
 
 <video id="player" controls></video>
 
 <div class="history">
-    <h3>📜 Video History (Local)</h3>
+    <h3>📜 History (Local)</h3>
     <div id="list"></div>
 </div>
-
 </div>
 
 <script>
 const player = document.getElementById("player");
 const list = document.getElementById("list");
 
-let history = JSON.parse(localStorage.getItem("video_links")) || [];
+let history = JSON.parse(localStorage.getItem("video_history")) || [];
 render();
 
-function downloadVideo(){
-    const url = document.getElementById("videoURL").value.trim();
-    if(!url) return alert("Paste video link");
+function download(){
+    const url = document.getElementById("url").value.trim();
+    if(!url) return alert("Paste link");
 
-    fetch(url)
-    .then(res => res.blob())
-    .then(blob => {
-        const videoBlobURL = URL.createObjectURL(blob);
-        player.src = videoBlobURL;
+    fetch("download.php",{
+        method:"POST",
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({url:url})
+    })
+    .then(res=>res.json())
+    .then(d=>{
+        if(d.error) return alert(d.error);
+
+        player.src = d.video;
         player.play();
 
-        const data = {
-            url: videoBlobURL,
-            original: url,
-            time: new Date().toLocaleString()
-        };
-
-        history.unshift(data);
-        localStorage.setItem("video_links", JSON.stringify(history));
+        history.unshift({
+            link:url,
+            file:d.video,
+            time:new Date().toLocaleString()
+        });
+        localStorage.setItem("video_history", JSON.stringify(history));
         render();
-    })
-    .catch(()=>{
-        alert("❌ Video download failed (CORS blocked or invalid link)");
     });
 }
 
 function render(){
-    list.innerHTML = "";
+    list.innerHTML="";
     history.forEach(v=>{
-        const div = document.createElement("div");
-        div.className = "item";
-        div.innerHTML = `
-            ▶ ${v.original}<br>
-            <small>${v.time}</small>
-        `;
-        div.onclick = ()=>{
-            player.src = v.url;
+        const div=document.createElement("div");
+        div.className="item";
+        div.innerHTML=`▶ ${v.link}<br><small>${v.time}</small>`;
+        div.onclick=()=>{
+            player.src=v.file;
             player.play();
         };
         list.appendChild(div);
